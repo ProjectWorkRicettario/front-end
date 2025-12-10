@@ -1,61 +1,72 @@
-/* frontend/src/components/HeaderBar.css */
-
-.main-header {
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid var(--border-color); /* Usa la variabile definita in index.css */
+/* headerBar.css */
+.header-bar {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo a {
-    text-decoration: none;
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
 }
 
-.logo h1 {
-    font-size: 1.5rem;
-    color: var(--primary-green);
-    margin: 0;
-    font-weight: 600;
+.header-logo-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 2rem;
+}
+
+.header-logo h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 600;
 }
 
 .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 25px; /* Spazio tra i link e il bottone */
+  display: flex;
+  gap: 2rem;
+  align-items: center;
 }
 
-.nav-link {
-    text-decoration: none;
-    color: var(--text-dark);
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.2s;
+.header-nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.nav-link:hover {
-    color: var(--primary-green);
+.header-nav a:hover {
+  color: #4caf50;
 }
 
-.logout-btn {
-    padding: 8px 15px;
-    background-color: var(--primary-green);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+@media (max-width: 640px) {
+  .header-bar {
+    padding: 1rem;
+  }
+
+  .header-logo h1 {
+    font-size: 1.1rem;
+  }
+
+  .header-nav {
+    gap: 1rem;
+  }
+
+  .header-nav a {
     font-size: 0.9rem;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-
-.logout-btn:hover {
-    background-color: #43A047;
+  }
 }

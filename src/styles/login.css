@@ -1,61 +1,116 @@
-/* frontend/src/index.css */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+/* login.css */
+.login-container,
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5;
 }
 
 .login-box {
   background: white;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-box h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  color: #333;
+}
+
+.login-box > p {
+  margin: 0 0 1.5rem 0;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
   font-size: 0.9rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  box-sizing: border-box; /* Importante per il padding */
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
 }
 
-button {
+.form-group input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.login-box button[type="submit"] {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 0.75rem;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
   font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-button:disabled {
-  background-color: #ccc;
+.login-box button[type="submit"]:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.login-box button[type="submit"]:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
 }
 
 .error-message {
-  color: #721c24;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  padding: 10px;
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  padding: 0.75rem;
   border-radius: 4px;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+}
+
+.success-message {
+  color: #388e3c;
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.link-login {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.link-login a {
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-login a:hover {
+  text-decoration: underline;
 }

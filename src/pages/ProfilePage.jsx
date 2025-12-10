@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import * as dataService from '../services/dataService';
 import HeaderBar from '../components/HeaderBar';
+import '../styles/profilePage.css';
 
 const ProfilePage = () => {
     const [profile, setProfile] = useState(null);
