@@ -1,7 +1,7 @@
 // frontend/src/pages/ProfilePage.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/authContext';
+import { useAuth } from '../contexts/AuthContext';
 import { logoutUser } from '../services/authService';
 import * as dataService from '../services/dataService';
 import HeaderBar from '../components/HeaderBar';
