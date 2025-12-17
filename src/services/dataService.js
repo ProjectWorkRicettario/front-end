@@ -1,11 +1,14 @@
-// frontend/src/services/dataService.js
-const API_URL = 'http://localhost:5000/api'; 
+const API_URL = 'https://back-end-k1s7.onrender.com/api'; 
 const OPTIONS = { credentials: 'include' };
 
 // Inventario
 export const getInventory = async () => {
     const response = await fetch(`${API_URL}/inventory`, OPTIONS);
-    if (!response.ok) throw new Error('Errore nel recupero inventario.');
+    if (!response.ok) {
+        const text = await response.text();
+        console.error('getInventory failed', response.status, text);
+        throw new Error(`Errore ${response.status}: ${text || 'Errore nel recupero inventario.'}`);
+    }
     return response.json();
 };
 
@@ -16,7 +19,11 @@ export const addItemToInventory = async (name, quantity) => {
         body: JSON.stringify({ name, quantity }),
         ...OPTIONS 
     });
-    if (!response.ok) throw new Error('Errore nell\'aggiunta ingrediente.');
+    if (!response.ok) {
+        const text = await response.text();
+        console.error('addItemToInventory failed', response.status, text);
+        throw new Error(`Errore ${response.status}: ${text || "Errore nell'aggiunta ingrediente."}`);
+    }
     return response.json();
 };
 
@@ -25,13 +32,21 @@ export const deleteItemFromInventory = async (itemId) => {
         method: 'DELETE',
         ...OPTIONS 
     });
-    if (!response.ok) throw new Error('Errore nella rimozione ingrediente.');
+    if (!response.ok) {
+        const text = await response.text();
+        console.error('deleteItemFromInventory failed', response.status, text);
+        throw new Error(`Errore ${response.status}: ${text || 'Errore nella rimozione ingrediente.'}`);
+    }
     return response.json();
 };
 
 // Profilo
 export const getProfileData = async () => {
     const response = await fetch(`${API_URL}/user/profile`, OPTIONS);
-    if (!response.ok) throw new Error('Errore nel recupero dati profilo.');
+    if (!response.ok) {
+        const text = await response.text();
+        console.error('getProfileData failed', response.status, text);
+        throw new Error(`Errore ${response.status}: ${text || 'Errore nel recupero dati profilo.'}`);
+    }
     return response.json();
 };

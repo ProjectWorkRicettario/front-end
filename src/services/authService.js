@@ -1,5 +1,4 @@
-// frontend/src/services/authService.js
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = "https://back-end-k1s7.onrender.com/api/auth";
 
 export const loginUser = async (email, password) => {
   try {
@@ -15,14 +14,23 @@ export const loginUser = async (email, password) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Login fallito");
+      const text = await response.text();
+      console.error('loginUser failed', response.status, text);
+      let message;
+      try {
+        message = JSON.parse(text).message;
+      } catch (e) {
+        message = text;
+      }
+      throw new Error(message || "Login fallito");
     }
 
     // La risposta includerà un cookie di sessione che il browser gestirà automaticamente
     const data = await response.json();
+    console.log('loginUser success', response.status);
     return data;
   } catch (error) {
+    console.error('loginUser error', error);
     throw error;
   }
 };
