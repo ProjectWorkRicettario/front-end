@@ -67,7 +67,12 @@ export const getProfileData = async () => {
 
 // Genera 3 ricette con tutti gli elementi dell'inventario
 export const generateRecipes = async () => {
-  const response = await fetch(`${API_URL}/recipes/generate`, OPTIONS);
+  // Uniamo le tue OPTIONS globali con il metodo POST specifico per questa chiamata
+  const response = await fetch(`${API_URL}/recipes/generate`, {
+    ...OPTIONS,
+    method: "POST", // <--- FONDAMENTALE: Forza il metodo POST
+  });
+
   if (!response.ok) {
     const text = await response.text();
     console.error("generateRecipes failed", response.status, text);
