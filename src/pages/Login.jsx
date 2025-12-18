@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/authService";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/login.css";
@@ -77,6 +77,9 @@ const Login = () => {
             {loading ? "Accesso in corso..." : "Accedi"}
           </button>
         </form>
+        <p className="link-login-register">
+          Non hai già un account? <Link to="/register">Registrati qui</Link>
+        </p>
       </div>
     </div>
   );

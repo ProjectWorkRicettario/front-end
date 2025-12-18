@@ -98,19 +98,19 @@
   font-size: 0.9rem;
 }
 
-.link-login {
+.link-login-register {
   margin-top: 1.5rem;
   text-align: center;
   color: #666;
   font-size: 0.9rem;
 }
 
-.link-login a {
+.link-login-register a {
   color: #4caf50;
   text-decoration: none;
   font-weight: 500;
 }
 
-.link-login a:hover {
+.link-login-register a:hover {
   text-decoration: underline;
 }

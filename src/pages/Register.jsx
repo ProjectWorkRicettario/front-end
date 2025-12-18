@@ -96,7 +96,7 @@ const Register = () => {
             {loading ? "Registrazione in corso..." : "Registrati"}
           </button>
         </form>
-        <p className="link-login">
+        <p className="link-login-register">
           Hai già un account? <Link to="/login">Accedi qui</Link>
         </p>
       </div>
