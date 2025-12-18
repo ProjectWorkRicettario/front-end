@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import * as dataService from "../services/dataService";
 import HeaderBar from "../components/HeaderBar";
+import GenerateRecipesButton from "../components/GenerateRecipesButton";
 import "../styles/inventoryPage.css";
 
 const InventoryPage = () => {
@@ -99,7 +99,7 @@ const InventoryPage = () => {
             ))}
           </div>
 
-          <button className="generate-btn">Genera Ricette</button>
+          <GenerateRecipesButton />
         </div>
 
         {/* Pannello Destro: Suggerimenti Ricette (Segnaposto) */}
