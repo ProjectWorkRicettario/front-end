@@ -1,4 +1,4 @@
-const API_URL = "https://back-end-k1s7.onrender.com/api/auth";
+const API_URL = "https://back-end-k1s7.onrender.com/api";
 
 const getAuthHeaders = (extra = {}) => {
   const token = localStorage.getItem('token');
