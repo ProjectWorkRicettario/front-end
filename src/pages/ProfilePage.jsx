@@ -30,11 +30,15 @@ const ProfilePage = () => {
 
     const handleLogout = async () => {
         try {
+            // logout endpoint is noop for JWT-based auth, but call it to keep compat
             await logoutUser();
             logout();
             navigate('/login');
         } catch (error) {
             console.error('Errore nel logout:', error);
+            // In caso di errore di rete, comunque forziamo il logout client-side
+            logout();
+            navigate('/login');
         }
     };
 

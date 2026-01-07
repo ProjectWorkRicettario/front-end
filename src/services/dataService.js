@@ -1,9 +1,14 @@
-const API_URL = "https://back-end-k1s7.onrender.com/api";
-const OPTIONS = { credentials: "include" };
+const API_URL = "https://back-end-k1s7.onrender.com/api/auth";
+
+const getAuthHeaders = (extra = {}) => {
+  const token = localStorage.getItem('token');
+  const auth = token ? { Authorization: `Bearer ${token}` } : {};
+  return { ...auth, ...extra };
+};
 
 // Inventario
 export const getInventory = async () => {
-  const response = await fetch(`${API_URL}/inventory`, OPTIONS);
+  const response = await fetch(`${API_URL}/inventory`, { headers: getAuthHeaders() });
   if (!response.ok) {
     const text = await response.text();
     console.error("getInventory failed", response.status, text);
@@ -17,9 +22,8 @@ export const getInventory = async () => {
 export const addItemToInventory = async (name, quantity) => {
   const response = await fetch(`${API_URL}/inventory`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: getAuthHeaders({ "Content-Type": "application/json" }),
     body: JSON.stringify({ name, quantity }),
-    ...OPTIONS,
   });
   if (!response.ok) {
     const text = await response.text();
@@ -36,7 +40,7 @@ export const addItemToInventory = async (name, quantity) => {
 export const deleteItemFromInventory = async (itemId) => {
   const response = await fetch(`${API_URL}/inventory/${itemId}`, {
     method: "DELETE",
-    ...OPTIONS,
+    headers: getAuthHeaders(),
   });
   if (!response.ok) {
     const text = await response.text();
@@ -52,7 +56,7 @@ export const deleteItemFromInventory = async (itemId) => {
 
 // Profilo
 export const getProfileData = async () => {
-  const response = await fetch(`${API_URL}/user/profile`, OPTIONS);
+  const response = await fetch(`${API_URL}/user/profile`, { headers: getAuthHeaders() });
   if (!response.ok) {
     const text = await response.text();
     console.error("getProfileData failed", response.status, text);
@@ -69,7 +73,7 @@ export const getProfileData = async () => {
 export const generateRecipes = async () => {
   // Uniamo le tue OPTIONS globali con il metodo POST specifico per questa chiamata
   const response = await fetch(`${API_URL}/recipes/generate`, {
-    ...OPTIONS,
+    headers: getAuthHeaders(),
     method: "POST", // <--- FONDAMENTALE: Forza il metodo POST
   });
 
