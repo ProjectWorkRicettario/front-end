@@ -71,10 +71,9 @@ export const getProfileData = async () => {
 
 // Genera 3 ricette con tutti gli elementi dell'inventario
 export const generateRecipes = async () => {
-  // Uniamo le tue OPTIONS globali con il metodo POST specifico per questa chiamata
   const response = await fetch(`${API_URL}/recipes/generate`, {
     headers: getAuthHeaders(),
-    method: "POST", // <--- FONDAMENTALE: Forza il metodo POST
+    method: "POST",
   });
 
   if (!response.ok) {
@@ -86,5 +85,25 @@ export const generateRecipes = async () => {
       }`
     );
   }
+  return response.json();
+};
+
+// Recupera tutte le ricette create dall'utente
+export const getRecipes = async () => {
+  const response = await fetch(`${API_URL}/recipes`, {
+    headers: getAuthHeaders(),
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    console.error("getRecipes failed", response.status, text);
+    throw new Error(
+      `Errore ${response.status}: ${
+        text || "Errore nel recupero delle ricette"
+      }`
+    );
+  }
+
   return response.json();
 };

@@ -9,14 +9,14 @@ const InventoryPage = () => {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [loading, setLoading] = useState(true);
+  const [recipes, setRecipes] = useState([]);
 
   const fetchInventory = async () => {
     try {
       const items = await dataService.getInventory();
       setInventory(items);
     } catch (error) {
-      console.error("Errore:", error);
-      // Gestione del reindirizzamento se non loggato (401)
+      console.error("Errore nel caricamento inventario:", error);
     } finally {
       setLoading(false);
     }
@@ -33,7 +33,7 @@ const InventoryPage = () => {
       await dataService.addItemToInventory(name, quantity);
       setName("");
       setQuantity("");
-      fetchInventory(); // Ricarica l'inventario
+      fetchInventory();
     } catch (error) {
       console.error("Errore aggiunta:", error);
     }
@@ -48,17 +48,21 @@ const InventoryPage = () => {
     }
   };
 
-  if (loading) return <div>Caricamento Inventario...</div>;
+  const handleRecipesGenerated = (newRecipes) => {
+    setRecipes(newRecipes || []);
+  };
+
+  if (loading) return <div className="loader">Caricamento Inventario...</div>;
 
   return (
     <div className="main-layout">
       <HeaderBar />
       <div className="content-area">
-        <div className="left-panel">
+        
+        <aside className="left-panel">
           <h2>Trova il tuo prossimo pasto.</h2>
-          <p>Dici quali ingredienti hai...</p>
+          <p>Inserisci gli ingredienti che hai a disposizione:</p>
 
-          {/* Form per aggiungere ingrediente (come da immagine) */}
           <form onSubmit={handleAddItem} className="add-ingredient-form">
             <input
               type="text"
@@ -71,15 +75,14 @@ const InventoryPage = () => {
               type="text"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              placeholder="Quantità (es. 3, 200g)"
+              placeholder="Quantità"
               required
             />
-            <button type="submit" className="add-btn">
+            <button type="submit" className="add-btn" title="Aggiungi ingrediente">
               +
             </button>
           </form>
 
-          {/* Lista Ingredienti (Tabella come da immagine) */}
           <div className="inventory-list-container">
             <div className="inventory-header">
               <span className="col-1">INGREDIENTE</span>
@@ -92,6 +95,7 @@ const InventoryPage = () => {
                 <button
                   className="delete-btn"
                   onClick={() => handleDeleteItem(item.id)}
+                  aria-label="Elimina"
                 >
                   🗑️
                 </button>
@@ -99,15 +103,53 @@ const InventoryPage = () => {
             ))}
           </div>
 
-          <GenerateRecipesButton />
-        </div>
+          <GenerateRecipesButton onGenerated={handleRecipesGenerated} />
+        </aside>
 
-        {/* Pannello Destro: Suggerimenti Ricette (Segnaposto) */}
-        <div className="right-panel">
-          <h3>Le tue ricette suggerite</h3>
-          {/* Qui andrebbero i componenti per le ricette suggerite (omessi per semplicità) */}
-          <div className="recipe-card">...</div>
-        </div>
+        <main className="right-panel">
+          <h3>💡 Ricette Suggerite</h3>
+          
+          {recipes.length === 0 ? (
+            <div className="empty-recipes">
+              <p>Non hai ancora generato nessuna ricetta. Clicca sul pulsante a sinistra per iniziare!</p>
+            </div>
+          ) : (
+            <div className="recipes-grid">
+              {recipes.map((r) => (
+                <article key={r.id} className="recipe-card">
+                  <header className="recipe-card-header">
+                    <h4>{r.title}</h4>
+                    <span className="time-badge">⏱️ {r.estimated_time}</span>
+                  </header>
+                  
+                  <div className="recipe-content">
+                    <section>
+                      <h5>Ingredienti:</h5>
+                      <ul className="recipe-ingredients">
+                        {r.ingredients.map((ing, idx) => (
+                          <li key={idx}>
+                            <span className="ing-name">{ing.name}</span>
+                            <span className="ing-qty">{ing.quantity}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+
+                    <details className="recipe-steps">
+                      <summary>Guarda Preparazione</summary>
+                      <ol>
+                        {r.steps.map((s, i) => (
+                          <li key={i}>{s}</li>
+                        ))}
+                      </ol>
+                    </details>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </main>
+
       </div>
     </div>
   );

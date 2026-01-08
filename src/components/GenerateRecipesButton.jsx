@@ -11,7 +11,7 @@ export default function GenerateRecipesButton({ onGenerated }) {
     setError(null);
     try {
       const data = await generateRecipes();
-      onGenerated && onGenerated(data.recipes); // aggiorna subito la UI
+      onGenerated && onGenerated(data.recipes);
     } catch (err) {
       setError(err.message || String(err));
     } finally {
