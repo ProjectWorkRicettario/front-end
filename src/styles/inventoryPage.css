@@ -13,7 +13,7 @@
   padding: 2rem;
 }
 
-/* Pannello Sinistro */
+/* Pannello Sinistro (Invariato) */
 .left-panel {
   background: white;
   padding: 2rem;
@@ -33,7 +33,6 @@
   font-size: 1rem;
 }
 
-/* Form Aggiungi Ingrediente */
 .add-ingredient-form {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -46,12 +45,6 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 0.95rem;
-  box-sizing: border-box;
-}
-
-.add-ingredient-form input:focus {
-  outline: none;
-  border-color: #4caf50;
 }
 
 .add-btn {
@@ -63,17 +56,8 @@
   border-radius: 4px;
   font-size: 1.5rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
 }
 
-.add-btn:hover {
-  background-color: #45a049;
-}
-
-/* Lista Inventario */
 .inventory-list-container {
   margin-bottom: 2rem;
   border: 1px solid #e0e0e0;
@@ -87,10 +71,7 @@
   padding: 0.75rem 1rem;
   background-color: #f5f5f5;
   font-weight: 600;
-  font-size: 0.8rem;
   color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .inventory-item {
@@ -101,35 +82,13 @@
   align-items: center;
 }
 
-.inventory-item:first-child {
-  border-top: none;
-}
-
-.inventory-item .col-1 {
-  color: #333;
-  font-size: 0.95rem;
-}
-
-.inventory-item .col-2 {
-  color: #666;
-  font-size: 0.9rem;
-}
-
 .delete-btn {
   background: none;
   border: none;
-  font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.25rem;
   opacity: 0.6;
-  transition: opacity 0.2s;
 }
 
-.delete-btn:hover {
-  opacity: 1;
-}
-
-/* Bottone Genera Ricette */
 .generate-btn {
   width: 100%;
   padding: 1rem;
@@ -137,26 +96,11 @@
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
 }
 
-.generate-btn:hover {
-  background-color: #45a049;
-}
+/* --- MIGLIORAMENTO GRAFICO AREA RICETTE --- */
 
-.generate-btn::before {
-  content: "✨";
-  font-size: 1.2rem;
-}
-
-/* Pannello Destro - Ricette Suggerite */
 .right-panel {
   background: white;
   padding: 2rem;
@@ -166,16 +110,94 @@
 
 .right-panel h3 {
   font-size: 1.5rem;
-  margin: 0 0 1.5rem 0;
+  margin-bottom: 1.5rem;
   color: #333;
 }
 
+/* Griglia per le ricette */
+.recipes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .recipe-card {
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 1.5rem;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.recipe-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
-  border: 1px solid #e0e0e0;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+.recipe-card-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.time-badge {
+  font-size: 0.8rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.recipe-ingredients {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.recipe-ingredients li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+  padding: 3px 0;
+}
+
+.ing-qty {
+  font-weight: bold;
+  color: #888;
+}
+
+.recipe-steps summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #4caf50;
+  padding: 5px 0;
+}
+
+.recipe-steps ol {
+  padding-left: 1.2rem;
+  line-height: 1.6;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.empty-recipes {
+  text-align: center;
+  color: #999;
+  padding: 3rem 0;
+  border: 2px dashed #eee;
+  border-radius: 8px;
 }
 
 /* Responsive */
@@ -186,19 +208,7 @@
 }
 
 @media (max-width: 640px) {
-  .content-area {
-    padding: 1rem;
-  }
-
   .add-ingredient-form {
     grid-template-columns: 1fr;
-  }
-
-  .add-ingredient-form input:last-of-type {
-    grid-column: 1;
-  }
-
-  .add-btn {
-    width: 100%;
   }
 }

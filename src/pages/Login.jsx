@@ -25,11 +25,15 @@ const Login = () => {
     try {
       const data = await loginUser(email, password);
 
-      login();
+      // Salva token e info utente
+      if (data.token) {
+        login(data.token, data.user);
+      } else {
+        login();
+      }
 
       console.log("Login riuscito:", data);
 
-      // La navigazione a /inventory ora è gestita automaticamente da AuthRedirect
       navigate("/inventory");
     } catch (err) {
       // Gestione errori (es. "Credenziali non valide")

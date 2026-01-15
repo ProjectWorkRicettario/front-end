@@ -34,8 +34,14 @@ const Register = () => {
     try {
       const data = await registerUser(email, password);
 
-      login();
+      // Se il backend restituisce un token, effettua il login automatico
+      if (data.token) {
+        login(data.token, data.user);
+        navigate('/inventory');
+        return;
+      }
 
+      login();
       setSuccess(data.message || "Registrazione riuscita!");
 
       navigate("/login");
