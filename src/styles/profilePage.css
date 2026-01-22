@@ -5,58 +5,63 @@
 }
 
 .profile-content {
-  max-width: 1000px; /* Allargato leggermente per la griglia ricette */
+  max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 3rem;
-}
-
-.profile-container h2 {
-  margin: 2rem 0 1.5rem;
-  padding: 0 1rem;
-  font-size: 2rem;
-  color: #333;
+  padding: 2rem 1rem;
 }
 
 .profile-details {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
-.profile-details p {
-  margin: 0;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 0.95rem;
+/* STILE PULSANTI TAB - Posizionati sopra le ricette */
+.profile-tabs-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0.5rem;
 }
 
-.logout-button {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #e74c3c;
-  color: white;
+.profile-tabs-selector button {
+  background: none;
   border: none;
-  border-radius: 6px;
+  font-size: 1.1rem;
   font-weight: 600;
+  color: #888;
   cursor: pointer;
-  transition: all 0.2s;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: color 0.3s;
 }
 
-/* SEZIONE RICETTE */
-.profile-recipes-section {
-  padding: 0 1rem;
+.profile-tabs-selector button:hover {
+  color: #4caf50;
 }
 
-.profile-recipes-section h3 {
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
+.profile-tabs-selector button.tab-active {
+  color: #4caf50;
 }
 
+.profile-tabs-selector button.tab-active::after {
+  content: "";
+  position: absolute;
+  bottom: -0.6rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #4caf50;
+  border-radius: 3px;
+}
+
+/* Griglia Ricette */
 .recipes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
@@ -65,86 +70,39 @@
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid #e0e0e0;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease;
-  overflow: hidden;
-}
-
-.recipe-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .recipe-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 1rem;
-}
-
-.recipe-card-header h4 {
-  margin: 0;
-  color: #333;
-  font-size: 1.1rem;
-  line-height: 1.2;
 }
 
 .time-badge {
   background: #e8f5e9;
   color: #2e7d32;
-  padding: 3px 8px;
-  border-radius: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
   font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.recipe-ingredients {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1rem 0;
-}
-
-.recipe-ingredients li {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  padding: 4px 0;
-  border-bottom: 1px solid #f9f9f9;
-}
-
-.ing-qty {
-  color: #888;
-  font-weight: 500;
-}
-
-.recipe-steps summary {
-  cursor: pointer;
-  font-weight: 600;
-  color: #4caf50;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .recipe-footer {
   margin-top: auto;
   padding-top: 1rem;
   font-size: 0.75rem;
-  color: #aaa;
-  text-align: right;
+  color: #999;
+  border-top: 1px solid #f9f9f9;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  background: #eee;
-  border-radius: 8px;
-  color: #777;
-}
-
-@media (max-width: 640px) {
-  .recipes-grid {
-    grid-template-columns: 1fr;
-  }
+.logout-button {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
 }
