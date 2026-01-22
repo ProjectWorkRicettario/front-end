@@ -7,11 +7,11 @@ const HeaderBar = () => {
       <div className="header-content">
         <Link to="/inventory" className="header-logo">
           <img className="header-logo-icon" src="/logo.png"></img>
-          <h1>Ricette dal Frigo</h1>
+          <h1>Ricettario</h1>
         </Link>
 
         <nav className="header-nav">
-          <Link to="/inventory">Le mie Ricette</Link>
+          <Link to="/inventory">Inventario</Link>
           <Link to="/profile">Profilo</Link>
         </nav>
       </div>
