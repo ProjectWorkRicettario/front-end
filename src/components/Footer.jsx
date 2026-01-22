@@ -21,7 +21,6 @@ const Footer = () => {
 
         <div className="footer-copyright">
           <p>&copy; {currentYear} Ricette dal Frigo. Tutti i diritti riservati.</p>
-          <p>Sviluppato con ❤️ per il Project Work.</p>
         </div>
       </div>
     </footer>
