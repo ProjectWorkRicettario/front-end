@@ -11,126 +11,146 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [recipesLoading, setRecipesLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("my-recipes");
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+  // ricetta fake temporanea placeholder
+  const sharedRecipesMock = [
+    {
+      id: "sh-1",
+      title: "Lasagna della Nonna",
+      estimated_time: "90 min",
+      created_at: new Date().toISOString(),
+      ingredients: [
+        { name: "Sfoglia", quantity: "500g" },
+        { name: "Ragù", quantity: "1L" },
+      ],
+      steps: ["Prepara la besciamella", "Inforna a 180°C"],
+      shared_by: "Mamma",
+    },
+  ];
+
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       try {
-        const data = await dataService.getProfileData();
-        setProfile(data);
+        const [profData, recData] = await Promise.all([
+          dataService.getProfileData(),
+          dataService.getRecipes(),
+        ]);
+        setProfile(profData);
+        setRecipes(
+          (Array.isArray(recData) ? recData : []).map((r) => ({
+            ...r,
+            ingredients:
+              typeof r.ingredients === "string"
+                ? JSON.parse(r.ingredients)
+                : r.ingredients,
+            steps: typeof r.steps === "string" ? JSON.parse(r.steps) : r.steps,
+          }))
+        );
       } catch (error) {
-        console.error("Errore nel recupero profilo:", error);
+        console.error("Errore:", error);
       } finally {
         setLoading(false);
-      }
-    };
-
-    const fetchRecipes = async () => {
-      try {
-        const data = await dataService.getRecipes();
-        const parsed = (Array.isArray(data) ? data : []).map((r) => ({
-          ...r,
-          ingredients:
-            typeof r.ingredients === "string"
-              ? JSON.parse(r.ingredients)
-              : r.ingredients,
-          steps: typeof r.steps === "string" ? JSON.parse(r.steps) : r.steps,
-        }));
-        setRecipes(parsed);
-      } catch (error) {
-        console.error("Errore nel recupero ricette:", error);
-      } finally {
         setRecipesLoading(false);
       }
     };
-
-    fetchProfile();
-    fetchRecipes();
+    fetchData();
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await logoutUser();
-      logout();
-      navigate("/login");
-    } catch (error) {
-      logout();
-      navigate("/login");
-    }
+    await logoutUser();
+    logout();
+    navigate("/login");
   };
+
+  const currentRecipes =
+    activeTab === "my-recipes" ? recipes : sharedRecipesMock;
 
   return (
     <div className="profile-container">
       <HeaderBar />
       <main className="profile-content">
-        {!profile && !loading && (
-          <div className="error-msg">Errore: Dati utente non disponibili.</div>
-        )}
         {loading ? (
-          <div className="loader">Caricamento Profilo...</div>
+          <div className="loader">Caricamento...</div>
         ) : (
           <>
             <h2>Profilo Personale</h2>
+
             <div className="profile-details">
               <p>
-                <strong>ID Utente:</strong> {profile.id}
+                <strong>ID Utente:</strong> {profile?.id}
               </p>
               <p>
-                <strong>Email:</strong> {profile.email}
+                <strong>Email:</strong> {profile?.email}
               </p>
               <p>
                 <strong>Registrato Dal:</strong>{" "}
-                {new Date(profile.created_at).toLocaleDateString()}
+                {new Date(profile?.created_at).toLocaleDateString()}
               </p>
               <button onClick={handleLogout} className="logout-button">
                 Esci dal profilo
               </button>
             </div>
 
+            <div className="profile-tabs-selector">
+              <button
+                className={activeTab === "my-recipes" ? "tab-active" : ""}
+                onClick={() => setActiveTab("my-recipes")}
+              >
+                Le mie ricette
+              </button>
+              <button
+                className={activeTab === "shared" ? "tab-active" : ""}
+                onClick={() => setActiveTab("shared")}
+              >
+                Condivise con me
+              </button>
+            </div>
+
             <section className="profile-recipes-section">
-              <h3>📜 Le tue ricette salvate</h3>
               {recipesLoading ? (
                 <div className="loader">Caricamento ricette...</div>
-              ) : recipes.length === 0 ? (
-                <div className="empty-state">
-                  Nessuna ricetta salvata nel tuo archivio.
-                </div>
               ) : (
                 <div className="recipes-grid">
-                  {recipes.map((r) => (
-                    <article key={r.id} className="recipe-card">
-                      <header className="recipe-card-header">
-                        <h4>{r.title}</h4>
-                        <span className="time-badge">
-                          ⏱️ {r.estimated_time}
-                        </span>
-                      </header>
-
-                      <div className="recipe-body">
-                        <ul className="recipe-ingredients">
-                          {(r.ingredients || []).map((ing, idx) => (
-                            <li key={idx}>
-                              <span>{ing.name}</span>
-                              <span className="ing-qty">{ing.quantity}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <details className="recipe-steps">
-                          <summary>Istruzioni preparazione</summary>
-                          <ol>
-                            {(r.steps || []).map((s, i) => (
-                              <li key={i}>{s}</li>
+                  {currentRecipes.length > 0 ? (
+                    currentRecipes.map((r) => (
+                      <article key={r.id} className="recipe-card">
+                        <header className="recipe-card-header">
+                          <h4>{r.title}</h4>
+                          <span className="time-badge">
+                            ⏱️ {r.estimated_time}
+                          </span>
+                        </header>
+                        <div className="recipe-body">
+                          <ul className="recipe-ingredients">
+                            {(r.ingredients || []).map((ing, i) => (
+                              <li key={i}>
+                                <span>{ing.name}</span>
+                                <span className="ing-qty">{ing.quantity}</span>
+                              </li>
                             ))}
-                          </ol>
-                        </details>
-                      </div>
-                      <footer className="recipe-footer">
-                        Creato il: {new Date(r.created_at).toLocaleDateString()}
-                      </footer>
-                    </article>
-                  ))}
+                          </ul>
+                          <details className="recipe-steps">
+                            <summary>Preparazione</summary>
+                            <ol>
+                              {(r.steps || []).map((s, i) => (
+                                <li key={i}>{s}</li>
+                              ))}
+                            </ol>
+                          </details>
+                        </div>
+                        <footer className="recipe-footer">
+                          {r.shared_by ? `Condivisa da: ${r.shared_by}` : null}
+                        </footer>
+                      </article>
+                    ))
+                  ) : (
+                    <div className="empty-state">
+                      Nessuna ricetta trovata in questa sezione.
+                    </div>
+                  )}
                 </div>
               )}
             </section>
