@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { logoutUser } from "../services/authService";
 import * as dataService from "../services/dataService";
 import HeaderBar from "../components/HeaderBar";
+import Footer from "../components/Footer";
 import "../styles/profilePage.css";
 
 const ProfilePage = () => {
@@ -120,6 +121,7 @@ const ProfilePage = () => {
           </>
         )}
       </main>
+      <Footer></Footer>
     </div>
   );
 };

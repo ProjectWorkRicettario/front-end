@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import * as dataService from "../services/dataService";
 import HeaderBar from "../components/HeaderBar";
 import GenerateRecipesButton from "../components/GenerateRecipesButton";
+import Footer from "../components/Footer";
 import "../styles/inventoryPage.css";
 
 const InventoryPage = () => {
@@ -56,7 +57,9 @@ const InventoryPage = () => {
 
   return (
     <div className="main-layout">
+      
       <HeaderBar />
+
       <div className="content-area">
         
         <aside className="left-panel">
@@ -151,6 +154,7 @@ const InventoryPage = () => {
         </main>
 
       </div>
+      <Footer></Footer>
     </div>
   );
 };
