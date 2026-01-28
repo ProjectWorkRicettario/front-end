@@ -1,10 +1,12 @@
 /* inventoryPage.css */
 .main-layout {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
+  transition: var(--transition-theme);
 }
 
 .content-area {
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
@@ -15,22 +17,25 @@
 
 /* Pannello Sinistro (Invariato) */
 .left-panel {
-  background: white;
+  background: var(--bg-primary);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
 }
 
 .left-panel h2 {
   font-size: 2rem;
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: var(--text-dark);
+  transition: var(--transition-theme);
 }
 
 .left-panel > p {
-  color: #666;
+  color: var(--text-medium);
   margin: 0 0 2rem 0;
   font-size: 1rem;
+  transition: var(--transition-theme);
 }
 
 .add-ingredient-form {
@@ -42,44 +47,61 @@
 
 .add-ingredient-form input {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 0.95rem;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  transition: var(--transition-theme);
+}
+
+.add-ingredient-form input::placeholder {
+  color: var(--input-placeholder);
 }
 
 .add-btn {
   width: 48px;
   height: 48px;
-  background-color: #4caf50;
+  background-color: var(--primary-green);
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 1.5rem;
   cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+  background-color: var(--primary-green-hover);
 }
 
 .inventory-list-container {
   margin-bottom: 2rem;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   overflow: hidden;
+  transition: var(--transition-theme);
 }
 
 .inventory-header {
   display: grid;
   grid-template-columns: 2fr 1fr 40px;
   padding: 0.75rem 1rem;
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
   font-weight: 600;
-  color: #666;
+  color: var(--text-medium);
+  transition: var(--transition-theme);
 }
 
 .inventory-item {
   display: grid;
   grid-template-columns: 2fr 1fr 40px;
   padding: 1rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-light);
   align-items: center;
+  background-color: var(--bg-primary);
+  color: var(--text-dark);
+  transition: var(--transition-theme);
 }
 
 .delete-btn {
@@ -87,31 +109,50 @@
   border: none;
   cursor: pointer;
   opacity: 0.6;
+  color: var(--text-dark);
+  transition: opacity 0.2s;
+}
+
+.delete-btn:hover {
+  opacity: 1;
 }
 
 .generate-btn {
   width: 100%;
   padding: 1rem;
-  background-color: #4caf50;
+  background-color: var(--primary-green);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background-color: var(--primary-green-hover);
+}
+
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* --- MIGLIORAMENTO GRAFICO AREA RICETTE --- */
 
 .right-panel {
-  background: white;
+  background: var(--bg-primary);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
 }
 
 .right-panel h3 {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-dark);
+  transition: var(--transition-theme);
 }
 
 /* Griglia per le ricette */
@@ -122,17 +163,17 @@
 }
 
 .recipe-card {
-  background: #ffffff;
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: transform 0.2s ease;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, var(--transition-theme);
 }
 
 .recipe-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-lg);
 }
 
 .recipe-card-header {
@@ -140,23 +181,26 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-light);
   padding-bottom: 0.5rem;
+  transition: var(--transition-theme);
 }
 
 .recipe-card-header h4 {
   margin: 0;
   font-size: 1.2rem;
-  color: #2c3e50;
+  color: var(--text-dark);
+  transition: var(--transition-theme);
 }
 
 .time-badge {
   font-size: 0.8rem;
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--success-bg);
+  color: var(--success-text);
   padding: 4px 10px;
   border-radius: 20px;
   font-weight: 600;
+  transition: var(--transition-theme);
 }
 
 .recipe-ingredients {
@@ -169,36 +213,59 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-medium);
   padding: 3px 0;
+  transition: var(--transition-theme);
 }
 
 .ing-qty {
   font-weight: bold;
-  color: #888;
+  color: var(--text-light);
+  transition: var(--transition-theme);
 }
 
 .recipe-steps summary {
   cursor: pointer;
   font-weight: 600;
-  color: #4caf50;
+  color: var(--primary-green);
   padding: 5px 0;
+  transition: color 0.2s;
+}
+
+.recipe-steps summary:hover {
+  color: var(--primary-green-hover);
 }
 
 .recipe-steps ol {
   padding-left: 1.2rem;
   line-height: 1.6;
-  color: #666;
+  color: var(--text-medium);
   font-size: 0.9rem;
+  transition: var(--transition-theme);
 }
 
 .empty-recipes {
   text-align: center;
-  color: #999;
+  color: var(--text-light);
   padding: 3rem 0;
-  border: 2px dashed #eee;
+  border: 2px dashed var(--border-light);
   border-radius: 8px;
+  transition: var(--transition-theme);
 }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .content-area {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .add-ingredient-form {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* Responsive */
 @media (max-width: 1024px) {

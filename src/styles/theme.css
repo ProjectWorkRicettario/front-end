@@ -1,0 +1,103 @@
+/* theme.css - Tema Light (default) */
+:root,
+[data-theme="light"] {
+  /* Colori primari */
+  --primary-green: #4caf50;
+  --primary-green-hover: #45a049;
+  --light-green: #e8f5e9;
+  
+  /* Testo */
+  --text-dark: #333333;
+  --text-medium: #666666;
+  --text-light: #999999;
+  
+  /* Sfondo */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #fafafa;
+  
+  /* Bordi */
+  --border-color: #e0e0e0;
+  --border-light: #eeeeee;
+  
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  /* Colori di feedback */
+  --error-bg: #ffebee;
+  --error-border: #ffcdd2;
+  --error-text: #d32f2f;
+  
+  --success-bg: #e8f5e9;
+  --success-border: #c8e6c9;
+  --success-text: #388e3c;
+  
+  --warning-bg: #fff3e0;
+  --warning-border: #ffe0b2;
+  --warning-text: #f57c00;
+  
+  --info-bg: #e3f2fd;
+  --info-border: #bbdefb;
+  --info-text: #1976d2;
+  
+  /* Input */
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --input-text: #333333;
+  --input-placeholder: #999999;
+  
+  /* Transizione tema */
+  --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  /* Colori primari */
+  --primary-green: #66bb6a;
+  --primary-green-hover: #81c784;
+  --light-green: #1b5e20;
+  
+  /* Testo */
+  --text-dark: #e8e8e8;
+  --text-medium: #b3b3b3;
+  --text-light: #808080;
+  
+  /* Sfondo */
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #333333;
+  
+  /* Bordi */
+  --border-color: #404040;
+  --border-light: #333333;
+  
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.7);
+  
+  /* Colori di feedback */
+  --error-bg: #5d1f1a;
+  --error-border: #9c4d49;
+  --error-text: #ff8a80;
+  
+  --success-bg: #1b5e20;
+  --success-border: #388e3c;
+  --success-text: #81c784;
+  
+  --warning-bg: #5d4037;
+  --warning-border: #8d6e63;
+  --warning-text: #ffb74d;
+  
+  --info-bg: #1a237e;
+  --info-border: #3949ab;
+  --info-text: #64b5f6;
+  
+  /* Input */
+  --input-bg: #2a2a2a;
+  --input-border: #505050;
+  --input-text: #e8e8e8;
+  --input-placeholder: #808080;
+}

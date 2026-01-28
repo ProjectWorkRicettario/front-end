@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/headerBar.css";
 
 const HeaderBar = () => {
@@ -13,6 +14,7 @@ const HeaderBar = () => {
         <nav className="header-nav">
           <Link to="/inventory">Inventario</Link>
           <Link to="/profile">Profilo</Link>
+          <ThemeToggle />
         </nav>
       </div>
     </header>

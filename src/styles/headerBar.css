@@ -1,9 +1,10 @@
 /* headerBar.css */
 .header-bar {
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
   padding: 1rem 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
 }
 
 .header-content {
@@ -12,6 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .header-logo {
@@ -20,6 +22,7 @@
   gap: 0.75rem;
   text-decoration: none;
   color: inherit;
+  flex-shrink: 0;
 }
 
 .header-logo-icon {
@@ -31,31 +34,37 @@
 .header-logo h1 {
   margin: 0;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-dark);
   font-weight: 600;
+  transition: var(--transition-theme);
 }
 
 .header-nav {
   display: flex;
   gap: 2rem;
   align-items: center;
+  margin-left: auto;
 }
 
 .header-nav a {
   text-decoration: none;
-  color: #333;
+  color: var(--text-dark);
   font-size: 0.95rem;
   font-weight: 500;
   transition: color 0.2s;
 }
 
 .header-nav a:hover {
-  color: #4caf50;
+  color: var(--primary-green);
 }
 
 @media (max-width: 640px) {
   .header-bar {
     padding: 1rem;
+  }
+
+  .header-content {
+    gap: 0.5rem;
   }
 
   .header-logo h1 {
