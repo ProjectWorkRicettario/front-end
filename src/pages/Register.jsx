@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../services/authService";
 import { useAuth } from "../contexts/AuthContext";
+import HeaderBar from "../components/HeaderBar";
+import Footer from "../components/Footer";
 import "../styles/login.css";
 
 const Register = () => {
@@ -53,7 +55,9 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
+    <>
+      <HeaderBar />
+      <div className="register-container">
       <div className="login-box">
         {" "}
         {/* Riutilizziamo la classe CSS del login */}
@@ -107,6 +111,8 @@ const Register = () => {
         </p>
       </div>
     </div>
+      <Footer />
+    </>
   );
 };
 

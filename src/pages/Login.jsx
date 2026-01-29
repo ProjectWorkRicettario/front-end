@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/authService";
 import { useAuth } from "../contexts/AuthContext";
+import HeaderBar from "../components/HeaderBar";
+import Footer from "../components/Footer";
 import "../styles/login.css";
 
 const Login = () => {
@@ -44,7 +46,9 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <>
+      <HeaderBar />
+      <div className="login-container">
       <div className="login-box">
         <h2>Benvenuto</h2>
         <p>Inserisci le tue credenziali per accedere</p>
@@ -86,6 +90,8 @@ const Login = () => {
         </p>
       </div>
     </div>
+      <Footer />
+    </>
   );
 };
 

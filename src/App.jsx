@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import HomePage from "./pages/HomePage";
 import InventoryPage from "./pages/InventoryPage";
 import ProfilePage from "./pages/ProfilePage";
 
@@ -17,6 +18,9 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* HOMEPAGE (Accessibile a tutti) */}
+        <Route path="/" element={<HomePage />} />
+
         {/* ROTTE DI AUTENTICAZIONE (Accesso solo se NON loggato) */}
         <Route
           path="/register"
@@ -54,9 +58,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Rotta principale che reindirizza a /inventory (protetta) */}
-        <Route path="/" element={<Navigate to="/inventory" replace />} />
       </Routes>
     </Router>
   );
