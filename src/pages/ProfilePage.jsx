@@ -16,6 +16,14 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+
+
+  const handleDeleteRecipe = async (id) => {
+  if (!window.confirm("Vuoi davvero eliminare questa ricetta?")) return;
+  // Qui chiamerai il tuo dataService.deleteRecipe(id)
+  setRecipes(recipes.filter(r => r.id !== id));
+  };
+
   // ricetta fake temporanea placeholder
   const sharedRecipesMock = [
     {
@@ -123,6 +131,13 @@ const ProfilePage = () => {
                           <span className="time-badge">
                             ⏱️ {r.estimated_time}
                           </span>
+                          <button
+                      className="delete-btn"
+                      onClick={() => handleDeleteRecipe(r.id)}
+                      aria-label="Elimina"
+                    >
+                      🗑️
+                    </button>
                         </header>
                         <div className="recipe-body">
                           <ul className="recipe-ingredients">

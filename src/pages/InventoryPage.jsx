@@ -12,6 +12,14 @@ const InventoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
 
+
+
+  const handleDeleteRecipe = async (id) => {
+  if (!window.confirm("Vuoi davvero eliminare questa ricetta?")) return;
+  // Qui chiamerai il tuo dataService.deleteRecipe(id)
+  setRecipes(recipes.filter(r => r.id !== id));
+  };
+  
   const fetchInventory = async () => {
     try {
       const items = await dataService.getInventory();
