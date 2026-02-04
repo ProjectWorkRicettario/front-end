@@ -116,7 +116,7 @@ const HomePage = () => {
           <div className="cta-buttons">
             <Link to={isLoggedIn ? "/inventory" : "/register"} className="btn-cta-primary">
               <span>Crea la tua prima ricetta</span>
-              <span className="material-symbols-outlined">arrow_forward</span>
+              
             </Link>
           </div>
         </div>
