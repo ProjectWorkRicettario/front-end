@@ -107,3 +107,36 @@ export const getRecipes = async () => {
 
   return response.json();
 };
+
+// Aggiungi questo in src/services/dataService.js
+
+export const shareRecipe = async (recipeId, receiverEmail) => {
+  
+    const response = await fetch(`${API_URL}/recipes/share`, {
+      method: "POST",
+      headers: getAuthHeaders({ "Content-Type": "application/json" }),
+      body: JSON.stringify({ recipeId, receiverEmail }),
+    });
+     if (!response.ok) {
+    const text = await response.text();
+    console.error("addItemToInventory failed", response.status, text);
+    throw new Error(
+      `Errore ${response.status}: ${
+        text || "Errore nell'aggiunta ingrediente."
+      }`
+    );
+  }
+  return response.json();
+    
+};  
+
+// In src/services/dataService.js
+
+export const getSharedRecipes = async () => {
+  const response = await fetch(`${API_URL}/recipes/shared`, {
+    method: "GET",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Errore nel recupero ricette condivise");
+  return response.json();
+};

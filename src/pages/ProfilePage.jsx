@@ -11,55 +11,41 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
+  const [sharedRecipes, setSharedRecipes] = useState([]);
   const [recipesLoading, setRecipesLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("my-recipes");
+  
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-
-
-  const handleDeleteRecipe = async (id) => {
-  if (!window.confirm("Vuoi davvero eliminare questa ricetta?")) return;
-  // Qui chiamerai il tuo dataService.deleteRecipe(id)
-  setRecipes(recipes.filter(r => r.id !== id));
+  // Funzione helper per formattare i dati JSON provenienti dal DB
+  const formatRecipes = (list) => {
+    if (!Array.isArray(list)) return [];
+    return list.map((r) => ({
+      ...r,
+      ingredients: typeof r.ingredients === "string" ? JSON.parse(r.ingredients) : (r.ingredients || []),
+      steps: typeof r.steps === "string" ? JSON.parse(r.steps) : (r.steps || []),
+    }));
   };
-
-  // ricetta fake temporanea placeholder
-  const sharedRecipesMock = [
-    {
-      id: "sh-1",
-      title: "Lasagna della Nonna",
-      estimated_time: "90 min",
-      created_at: new Date().toISOString(),
-      ingredients: [
-        { name: "Sfoglia", quantity: "500g" },
-        { name: "Ragù", quantity: "1L" },
-      ],
-      steps: ["Prepara la besciamella", "Inforna a 180°C"],
-      shared_by: "Mamma",
-    },
-  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [profData, recData] = await Promise.all([
+        setLoading(true);
+        setRecipesLoading(true);
+
+        // Chiamate parallele al backend
+        const [profData, recData, sharedData] = await Promise.all([
           dataService.getProfileData(),
           dataService.getRecipes(),
+          dataService.getSharedRecipes(),
         ]);
+
         setProfile(profData);
-        setRecipes(
-          (Array.isArray(recData) ? recData : []).map((r) => ({
-            ...r,
-            ingredients:
-              typeof r.ingredients === "string"
-                ? JSON.parse(r.ingredients)
-                : r.ingredients,
-            steps: typeof r.steps === "string" ? JSON.parse(r.steps) : r.steps,
-          }))
-        );
+        setRecipes(formatRecipes(recData));
+        setSharedRecipes(formatRecipes(sharedData));
       } catch (error) {
-        console.error("Errore:", error);
+        console.error("Errore nel caricamento dati profilo:", error);
       } finally {
         setLoading(false);
         setRecipesLoading(false);
@@ -68,39 +54,58 @@ const ProfilePage = () => {
     fetchData();
   }, []);
 
+  const handleDeleteRecipe = async (id) => {
+    if (!window.confirm("Vuoi davvero eliminare questa ricetta?")) return;
+    
+    try {
+      // 1. Chiamata al backend per eliminazione fisica
+      await dataService.deleteRecipe(id); 
+      
+      // 2. Aggiornamento UI
+      setRecipes((prev) => prev.filter((r) => r.id !== id));
+      alert("Ricetta eliminata con successo.");
+    } catch (error) {
+      console.error("Errore durante l'eliminazione:", error);
+      alert("Impossibile eliminare la ricetta.");
+    }
+  };
+
+  const handleShare = async (recipeId) => {
+    const email = window.prompt("Inserisci l'email dell'amico con cui vuoi condividere la ricetta:");
+    if (!email) return;
+
+    try {
+      await dataService.shareRecipe(recipeId, email);
+      alert("Ricetta condivisa correttamente!");
+    } catch (error) {
+      console.error("Errore condivisione:", error);
+      alert("Errore: assicurati che l'email sia corretta e l'utente esista.");
+    }
+  };
+
   const handleLogout = async () => {
     await logoutUser();
     logout();
     navigate("/login");
   };
 
-  const currentRecipes =
-    activeTab === "my-recipes" ? recipes : sharedRecipesMock;
+  // Determina quali ricette mostrare in base al Tab attivo
+  const currentRecipes = activeTab === "my-recipes" ? recipes : sharedRecipes;
 
   return (
     <div className="profile-container">
       <HeaderBar />
       <main className="profile-content">
         {loading ? (
-          <div className="loader">Caricamento...</div>
+          <div className="loader">Caricamento profilo...</div>
         ) : (
           <>
             <h2>Profilo Personale</h2>
-
             <div className="profile-details">
-              <p>
-                <strong>ID Utente:</strong> {profile?.id}
-              </p>
-              <p>
-                <strong>Email:</strong> {profile?.email}
-              </p>
-              <p>
-                <strong>Registrato Dal:</strong>{" "}
-                {new Date(profile?.created_at).toLocaleDateString()}
-              </p>
-              <button onClick={handleLogout} className="logout-button">
-                Esci dal profilo
-              </button>
+              <p><strong>ID Utente:</strong> {profile?.id}</p>
+              <p><strong>Email:</strong> {profile?.email}</p>
+              <p><strong>Registrato Dal:</strong> {new Date(profile?.created_at).toLocaleDateString()}</p>
+              <button onClick={handleLogout} className="logout-button">Esci dal profilo</button>
             </div>
 
             <div className="profile-tabs-selector">
@@ -128,20 +133,23 @@ const ProfilePage = () => {
                       <article key={r.id} className="recipe-card">
                         <header className="recipe-card-header">
                           <h4>{r.title}</h4>
-                          <span className="time-badge">
-                            ⏱️ {r.estimated_time}
-                          </span>
-                          <button
-                      className="delete-btn"
-                      onClick={() => handleDeleteRecipe(r.id)}
-                      aria-label="Elimina"
-                    >
-                      🗑️
-                    </button>
+                          <span className="time-badge">⏱️ {r.estimated_time}</span>
+                          
+                          {/* Mostra il tasto elimina solo se sono le mie ricette */}
+                          {activeTab === "my-recipes" && (
+                            <button
+                              className="delete-btn"
+                              onClick={() => handleDeleteRecipe(r.id)}
+                              title="Elimina ricetta"
+                            >
+                              🗑️
+                            </button>
+                          )}
                         </header>
+
                         <div className="recipe-body">
                           <ul className="recipe-ingredients">
-                            {(r.ingredients || []).map((ing, i) => (
+                            {r.ingredients.map((ing, i) => (
                               <li key={i}>
                                 <span>{ing.name}</span>
                                 <span className="ing-qty">{ing.quantity}</span>
@@ -151,21 +159,28 @@ const ProfilePage = () => {
                           <details className="recipe-steps">
                             <summary>Preparazione</summary>
                             <ol>
-                              {(r.steps || []).map((s, i) => (
-                                <li key={i}>{s}</li>
-                              ))}
+                              {r.steps.map((s, i) => <li key={i}>{s}</li>)}
                             </ol>
                           </details>
                         </div>
+
                         <footer className="recipe-footer">
-                          {r.shared_by ? `Condivisa da: ${r.shared_by}` : null}
+                          {r.shared_by ? (
+                            <span className="shared-tag">Inviata da: {r.shared_by}</span>
+                          ) : (
+                            <button
+                              className="share-btn"
+                              onClick={() => handleShare(r.id)}
+                              style={{ marginLeft: "auto" }}
+                            >
+                              📤 Condividi
+                            </button>
+                          )}
                         </footer>
                       </article>
                     ))
                   ) : (
-                    <div className="empty-state">
-                      Nessuna ricetta trovata in questa sezione.
-                    </div>
+                    <div className="empty-state">Nessuna ricetta trovata in questa sezione.</div>
                   )}
                 </div>
               )}
@@ -173,7 +188,7 @@ const ProfilePage = () => {
           </>
         )}
       </main>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };
