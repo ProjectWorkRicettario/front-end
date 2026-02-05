@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const [sharedRecipes, setSharedRecipes] = useState([]);
   const [recipesLoading, setRecipesLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("my-recipes");
-  
+
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -23,8 +23,11 @@ const ProfilePage = () => {
     if (!Array.isArray(list)) return [];
     return list.map((r) => ({
       ...r,
-      ingredients: typeof r.ingredients === "string" ? JSON.parse(r.ingredients) : (r.ingredients || []),
-      steps: typeof r.steps === "string" ? JSON.parse(r.steps) : (r.steps || []),
+      ingredients:
+        typeof r.ingredients === "string"
+          ? JSON.parse(r.ingredients)
+          : r.ingredients || [],
+      steps: typeof r.steps === "string" ? JSON.parse(r.steps) : r.steps || [],
     }));
   };
 
@@ -56,11 +59,11 @@ const ProfilePage = () => {
 
   const handleDeleteRecipe = async (id) => {
     if (!window.confirm("Vuoi davvero eliminare questa ricetta?")) return;
-    
+
     try {
       // 1. Chiamata al backend per eliminazione fisica
-      await dataService.deleteRecipe(id); 
-      
+      await dataService.deleteRecipe(id);
+
       // 2. Aggiornamento UI
       setRecipes((prev) => prev.filter((r) => r.id !== id));
       alert("Ricetta eliminata con successo.");
@@ -71,7 +74,9 @@ const ProfilePage = () => {
   };
 
   const handleShare = async (recipeId) => {
-    const email = window.prompt("Inserisci l'email dell'amico con cui vuoi condividere la ricetta:");
+    const email = window.prompt(
+      "Inserisci l'email dell'amico con cui vuoi condividere la ricetta:",
+    );
     if (!email) return;
 
     try {
@@ -102,10 +107,19 @@ const ProfilePage = () => {
           <>
             <h2>Profilo Personale</h2>
             <div className="profile-details">
-              <p><strong>ID Utente:</strong> {profile?.id}</p>
-              <p><strong>Email:</strong> {profile?.email}</p>
-              <p><strong>Registrato Dal:</strong> {new Date(profile?.created_at).toLocaleDateString()}</p>
-              <button onClick={handleLogout} className="logout-button">Esci dal profilo</button>
+              <p>
+                <strong>ID Utente:</strong> {profile?.id}
+              </p>
+              <p>
+                <strong>Email:</strong> {profile?.email}
+              </p>
+              <p>
+                <strong>Registrato Dal:</strong>{" "}
+                {new Date(profile?.created_at).toLocaleDateString()}
+              </p>
+              <button onClick={handleLogout} className="logout-button">
+                Esci dal profilo
+              </button>
             </div>
 
             <div className="profile-tabs-selector">
@@ -133,18 +147,9 @@ const ProfilePage = () => {
                       <article key={r.id} className="recipe-card">
                         <header className="recipe-card-header">
                           <h4>{r.title}</h4>
-                          <span className="time-badge">⏱️ {r.estimated_time}</span>
-                          
-                          {/* Mostra il tasto elimina solo se sono le mie ricette */}
-                          {activeTab === "my-recipes" && (
-                            <button
-                              className="delete-btn"
-                              onClick={() => handleDeleteRecipe(r.id)}
-                              title="Elimina ricetta"
-                            >
-                              🗑️
-                            </button>
-                          )}
+                          <span className="time-badge">
+                             {r.estimated_time}
+                          </span>
                         </header>
 
                         <div className="recipe-body">
@@ -159,28 +164,45 @@ const ProfilePage = () => {
                           <details className="recipe-steps">
                             <summary>Preparazione</summary>
                             <ol>
-                              {r.steps.map((s, i) => <li key={i}>{s}</li>)}
+                              {r.steps.map((s, i) => (
+                                <li key={i}>{s}</li>
+                              ))}
                             </ol>
                           </details>
                         </div>
 
                         <footer className="recipe-footer">
                           {r.shared_by ? (
-                            <span className="shared-tag">Inviata da: {r.shared_by}</span>
+                            <span className="shared-tag">
+                              Inviata da: {r.shared_by}
+                            </span>
                           ) : (
-                            <button
-                              className="share-btn"
-                              onClick={() => handleShare(r.id)}
-                              style={{ marginLeft: "auto" }}
-                            >
-                              📤 Condividi
-                            </button>
+                            <div className="recipe-actions">
+                              <button
+                                className="share-btn"
+                                onClick={() => handleShare(r.id)}
+                              >
+                                 Condividi
+                              </button>
+
+                              {activeTab === "my-recipes" && (
+                                <button
+                                  className="delete-btn-modern"
+                                  onClick={() => handleDeleteRecipe(r.id)}
+                                  title="Elimina ricetta"
+                                >
+                                   Elimina
+                                </button>
+                              )}
+                            </div>
                           )}
                         </footer>
                       </article>
                     ))
                   ) : (
-                    <div className="empty-state">Nessuna ricetta trovata in questa sezione.</div>
+                    <div className="empty-state">
+                      Nessuna ricetta trovata in questa sezione.
+                    </div>
                   )}
                 </div>
               )}

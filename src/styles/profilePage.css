@@ -118,3 +118,51 @@
 .logout-button:hover {
   background-color: #b71c1c;
 }
+
+
+/* Container per i pulsanti in basso */
+.recipe-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+/* Pulsante Condividi Moderno */
+.share-btn {
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--primary-green-rgb), 0.3);
+  filter: brightness(1.1);
+}
+
+/* Pulsante Elimina Moderno */
+.delete-btn-modern {
+  background: none;
+  border: 1px solid var(--error-text);
+  color: var(--error-text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.delete-btn-modern:hover {
+  background-color: var(--error-text);
+  color: white;
+}
