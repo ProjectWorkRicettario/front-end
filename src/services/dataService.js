@@ -140,3 +140,26 @@ export const getSharedRecipes = async () => {
   if (!response.ok) throw new Error("Errore nel recupero ricette condivise");
   return response.json();
 };
+
+
+export const deleteRecipe = async (recipeId) => {
+  try {
+    const response = await fetch(`${API_URL}/recipes/${recipeId}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(), // Include il token JWT nelle intestazioni
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Errore eliminazione ricetta:", response.status, errorText);
+      throw new Error(
+        `Errore ${response.status}: ${errorText || "Impossibile eliminare la ricetta."}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("deleteRecipe service error:", error);
+    throw error;
+  }
+};
